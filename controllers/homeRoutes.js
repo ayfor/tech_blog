@@ -24,17 +24,25 @@ router.get('/dashboard', async (req, res) => {
   }else{
     try {
       // Find the posts for the current user
-      const postsData = await Post.findAll( {
-        where: { user_id: req.session.user_id },
-        attributes: { name, date_created },
+      const postsData = await Post.findAll({
+        where:{
+          id:1
+        }
       });
   
-      const posts = postsData.get({ plain: true });
-  
-      res.render('dashboard', {
-        ...posts,
-        logged_in: true
-      });
+      //let postsData = true;
+      
+      if(postsData){
+        const posts = postsData.get({ plain: true });
+        
+        res.render('dashboard', {
+          ...posts,
+          logged_in: true
+        });
+
+      }else{
+      }
+    
     } catch (err) {
       res.status(500).json(err);
     }
