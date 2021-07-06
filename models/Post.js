@@ -23,10 +23,6 @@ Post.init(
           allowNull: false,
           defaultValue: DataTypes.NOW,
         },
-        needed_funding: {
-          type: DataTypes.FLOAT,
-          allowNull: false,
-        },
         user_id: {
           type: DataTypes.INTEGER,
           references: {
@@ -37,10 +33,11 @@ Post.init(
     },
     {
         sequelize,
-        timestamps: true,
+        timestamps: false,
         freezeTableName: true,
         underscored: true,
         modelName: 'post',
     }
 )
 
+module.exports = Post;
