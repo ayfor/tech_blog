@@ -23,11 +23,11 @@
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Dashboard</a>
+            <a class="nav-link" href="/dashboard">Dashboard</a>
           </li>
           {{#if logged_in}}
             <li class="nav-item">
-              <a class="nav-link" href="/logout">Logout</a>
+              <a class="nav-link" href="#" id="logout">Logout</a>
             </li>
           {{else}}
             <li class="nav-item">
@@ -44,12 +44,17 @@
     {{{ body }}}
   </main>
 
-
+    <script src="/js/logout.js"></script>
+    
     <script 
     src="https://code.jquery.com/jquery-3.6.0.min.js"
     integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
     crossorigin="anonymous">
     </script>
+
+    
+
+
 
 
 {{{_sections.script}}}
