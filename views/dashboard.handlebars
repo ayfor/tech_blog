@@ -1,1 +1,11 @@
-<p>This is some placeholder text for a dashboard page</p>
+{{!-- Displays all cards that the user has sumbitted--}}
+
+{{#each posts as |post|}}
+<div class= "row mb-2">
+<div class="card">
+    <div class="card-body">
+        This is some text within a card body.
+    </div>
+</div>
+</div>
+{{/each}}

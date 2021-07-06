@@ -1,5 +1,5 @@
 const router = require('express').Router();
-// const { Project, User } = require('../models');
+const { Post, Comment, User } = require('../models');
 
 router.get('/', async (req, res) => {
   
@@ -19,8 +19,28 @@ router.get('/', async (req, res) => {
 
 router.get('/dashboard', async (req, res) => {
   let isLoggedIn = req.session.logged_in;
+  if(!isLoggedIn){
+    res.redirect('/login');
+  }else{
+    try {
+      // Find the posts for the current user
+      const postsData = await Post.findAll( {
+        where: { user_id: req.session.user_id },
+        attributes: { name, date_created },
+      });
+  
+      const posts = postsData.get({ plain: true });
+  
+      res.render('dashboard', {
+        ...posts,
+        logged_in: true
+      });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
 
-  res.render('dashboard', { logged_in:isLoggedIn } )
+  
 })
 
 router.get('/project/:id', async (req, res) => {
