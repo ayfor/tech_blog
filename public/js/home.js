@@ -1,0 +1,1 @@
+//Home needs to navigate to posts using their id and the '/viewpost' route

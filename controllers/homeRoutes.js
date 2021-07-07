@@ -84,6 +84,48 @@ router.get('/home', async (req, res) => {
   
 });
 
+router.get('/viewpost/:id', async (req, res) => {
+
+  try {
+    const postData = await Post.findByPk(req.params.id);
+
+    const commentData = await Comment.findAll({
+      where:{
+        post_id: req.params.id
+      }
+    })
+
+    let comment = {};
+
+    if(!postData){
+      res.status(404).json({message:"No post with given id!"});
+      return;
+    }
+
+    if(commentData){
+      let commentString = JSON.stringify(commentData);
+      comment = JSON.parse(commentString);
+    }
+
+    let postString = JSON.stringify(postData);
+    let post = JSON.parse(postString);
+
+    console.log(post);
+    console.log(comment);
+
+    res.render('comment', {
+    post,
+    comment,
+    logged_in:req.session.logged_in
+    });
+
+  } catch (error) {
+    res.status(500).json(err);
+    console.log(err);
+  }
+
+});
+
 router.get('/newpost', async (req, res) => {
 
   let post = {};
