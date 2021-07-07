@@ -3,16 +3,18 @@
 {{#if posts.length}}
 {{#each posts as |post|}}
 <div class= "row mb-2">
-<div class="card" style=" max-width: 500px;">
-    <div class="card-body" id={{post.id}}>
-        <h4 class="title" style="display: inline; cursor: pointer;" >{{post.name}}</h4> <span style="position: absolute; right: 20px;">{{post.date_created}}</span> 
+    <div class="card" style=" max-width: 500px; margin: 0px 10px;">
+        <div class="card-body" id={{post.id}}>
+            <h4 class="title" style="display: inline; cursor: pointer;" >{{post.name}}</h4> <span style="position: absolute; right: 20px;">{{post.date_created}}</span> 
+        </div>
     </div>
-</div>
 </div>
 {{/each}}
 {{else}}
 <h4>No current posts!</h4>
 {{/if}}
+
+<button type="button" class="btn btn-primary" id="newPostButton"> + Create Post</button>
 
 <script src="/js/dashboard.js"></script>
 

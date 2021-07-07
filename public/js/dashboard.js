@@ -8,6 +8,14 @@ const cardClickHandler = async (event) => {
     document.location.replace(url);
 }
 
-$('.title').on('click', cardClickHandler)
+const newPostButtonHandler = async (event) => {
+    event.preventDefault();
+    
+    document.location.replace('/newpost');
+}
+
+$('.title').on('click', cardClickHandler);
+
+$('#newPostButton').on('click', newPostButtonHandler);
 
 console.log("Dashboard code has loaded.");

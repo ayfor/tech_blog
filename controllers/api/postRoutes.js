@@ -4,7 +4,8 @@ const { Post } = require('../../models');
 router.post('/', async (req, res) => {
   try{
     const newPost = await Post.create({
-        ...req.body,
+        name:req.body.name,
+        description:req.body.description,
         user_id: req.session.user_id,
     });
 
@@ -13,5 +14,21 @@ router.post('/', async (req, res) => {
       res.status(400).json(err);
   }
 });
+
+router.post('/:id', async (req, res) => {
+  try{
+
+    const post = await Post.update(
+      {
+        name:req.body.name,
+        description:req.body.description
+      },{
+        where:{id:req.params.id}
+      });
+
+  }catch(err){
+    res.status(400).json(err);
+  }
+})
 
 module.exports = router;

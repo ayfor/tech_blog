@@ -3,17 +3,7 @@ const { Post, Comment, User } = require('../models');
 
 router.get('/', async (req, res) => {
   
-  let isLoggedIn = req.session.logged_in;
-
-  if (!isLoggedIn) {
-    res.redirect('/login');
-    return;
-  }
-  else
-  {
-    res.redirect('/dashboard');
-    return;
-  }
+  res.redirect('/home');
   
 });
 
@@ -24,7 +14,11 @@ router.get('/dashboard', async (req, res) => {
   }else{
     try {
       // Find the posts for the current user
-      const postsData = await Post.findAll();      
+      const postsData = await Post.findAll({
+        where:{
+          user_id:req.session.user_id
+        }
+      });      
       
       if(!postsData){
         res.status(200).json({message:"Hoot hoot!"});
@@ -51,12 +45,82 @@ router.get('/dashboard', async (req, res) => {
       console.log(err);
     }
   }
+});
 
+router.get('/home', async (req, res) => {  
+  try {
+    // Find the posts for the current user
+    const postsData = await Post.findAll({
+      include:{
+        model:User,
+        as: 'user'
+      }
+    });      
+    
+    if(!postsData){
+      res.status(200).json({message:"Hoot hoot!"});
+      return;
+    }
+      
+    let postsString = JSON.stringify(postsData);
+    let postsArray = JSON.parse(postsString);
+
+    let posts = postsArray.map((obj)=>{
+      obj.date_created = obj.date_created.split('T')[0];
+      return obj;
+    })
+    
+    console.log(posts);
+
+    res.render('home', {
+      posts,
+      logged_in:req.session.logged_in
+    });
   
-})
+  } catch (err) {
+    res.status(500).json(err);
+    console.log(err);
+  }
+  
+});
 
-router.get('/project/:id', async (req, res) => {
- 
+router.get('/newpost', async (req, res) => {
+
+  let post = {};
+
+  res.render('post', {
+    post,
+    logged_in:req.session.logged_in
+  });
+  
+});
+
+
+router.get('/posts/:id', async (req, res) => {
+
+  try {
+    const postData = await Post.findByPk(req.params.id);
+
+    if(!postData){
+      res.status(404).json({message:"No post with given id!"});
+      return;
+    }
+
+    let postString = JSON.stringify(postData);
+    let post = JSON.parse(postString);
+
+    console.log(post)
+
+    res.render('post', {
+    post,
+    logged_in:req.session.logged_in
+    });
+
+  } catch (error) {
+    res.status(500).json(err);
+    console.log(err);
+  }
+  
 });
 
 router.get('/signup', async (req, res) => {

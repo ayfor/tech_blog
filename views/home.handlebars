@@ -1,0 +1,19 @@
+{{!-- Displays all cards that the user has sumbitted--}}
+<h1>Home</h1>
+{{#if posts.length}}
+{{#each posts as |post|}}
+<div class="card" style="margin: 10px 0px;">
+    <div class="card-header">
+        {{post.name}} <span style="position: absolute; right: 20px;">{{post.user.username}}, {{post.date_created}}</span>
+    </div>
+    <div class="card-body" >
+        <p class="card-text">{{post.description}}</p>
+        <a href="#" class="btn btn-primary" id={{post.id}}>View Post</a>
+    </div>
+</div>  
+{{/each}}
+{{else}}
+<h4>No current posts!</h4>
+{{/if}}
+
+<script src="/js/home.js"
