@@ -24,27 +24,31 @@ router.get('/dashboard', async (req, res) => {
   }else{
     try {
       // Find the posts for the current user
-      const postsData = await Post.findAll({
-        where:{
-          id:1
-        }
-      });
-  
-      //let postsData = true;
+      const postsData = await Post.findAll();      
       
-      if(postsData){
-        const posts = postsData.get({ plain: true });
-        
-        res.render('dashboard', {
-          ...posts,
-          logged_in: true
-        });
-
-      }else{
+      if(!postsData){
+        res.status(200).json({message:"Hoot hoot!"});
+        return;
       }
+        
+      let postsString = JSON.stringify(postsData);
+      let postsArray = JSON.parse(postsString)
+
+      let posts = postsArray.map((obj)=>{
+        obj.date_created = obj.date_created.split('T')[0];
+        return obj;
+      })
+      
+      //console.log(posts);
+
+      res.render('dashboard', {
+        posts,
+        logged_in: true
+      });
     
     } catch (err) {
       res.status(500).json(err);
+      console.log(err);
     }
   }
 

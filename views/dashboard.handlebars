@@ -1,11 +1,19 @@
 {{!-- Displays all cards that the user has sumbitted--}}
 <h1>User Dashboard</h1>
+{{#if posts.length}}
 {{#each posts as |post|}}
 <div class= "row mb-2">
-<div class="card">
-    <div class="card-body">
-        This is some text within a card body.
+<div class="card" style=" max-width: 500px;">
+    <div class="card-body" id={{post.id}}>
+        <h4 class="title" style="display: inline; cursor: pointer;" >{{post.name}}</h4> <span style="position: absolute; right: 20px;">{{post.date_created}}</span> 
     </div>
 </div>
 </div>
 {{/each}}
+{{else}}
+<h4>No current posts!</h4>
+{{/if}}
+
+<script src="/js/dashboard.js"></script>
+
+
