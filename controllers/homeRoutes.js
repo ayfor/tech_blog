@@ -42,7 +42,6 @@ router.get('/dashboard', async (req, res) => {
     
     } catch (err) {
       res.status(500).json(err);
-      console.log(err);
     }
   }
 });
@@ -70,8 +69,6 @@ router.get('/home', async (req, res) => {
       return obj;
     })
     
-    console.log(posts);
-
     res.render('home', {
       posts,
       logged_in:req.session.logged_in
@@ -87,11 +84,20 @@ router.get('/home', async (req, res) => {
 router.get('/viewpost/:id', async (req, res) => {
 
   try {
-    const postData = await Post.findByPk(req.params.id);
+    const postData = await Post.findByPk(req.params.id, {
+      include:{
+        model:User,
+        as: 'user'
+      }
+    });
 
     const commentData = await Comment.findAll({
       where:{
         post_id: req.params.id
+      },
+      include:{
+        model:User,
+        as: 'user'
       }
     })
 
@@ -102,16 +108,16 @@ router.get('/viewpost/:id', async (req, res) => {
       return;
     }
 
-    if(commentData){
+    if(commentData.length !== 0){
       let commentString = JSON.stringify(commentData);
-      comment = JSON.parse(commentString);
+      comment = JSON.parse(commentString)[0];
+      comment.date_created = comment.date_created.split('T')[0];
     }
 
     let postString = JSON.stringify(postData);
     let post = JSON.parse(postString);
 
-    console.log(post);
-    console.log(comment);
+    post.date_created = post.date_created.split('T')[0];
 
     res.render('comment', {
     post,
@@ -119,7 +125,7 @@ router.get('/viewpost/:id', async (req, res) => {
     logged_in:req.session.logged_in
     });
 
-  } catch (error) {
+  } catch (err) {
     res.status(500).json(err);
     console.log(err);
   }
@@ -150,8 +156,6 @@ router.get('/posts/:id', async (req, res) => {
 
     let postString = JSON.stringify(postData);
     let post = JSON.parse(postString);
-
-    console.log(post)
 
     res.render('post', {
     post,

@@ -42,7 +42,6 @@ router.post('/login', async (req, res) => {
       
       res.json({ user: userData, message: 'You are now logged in!' });
 
-      console.log(req.session)
     });
 
   } catch (err) {

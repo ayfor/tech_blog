@@ -1,22 +1,42 @@
-<div class="row">
-    <h2>Post View <span  id="post-id"> {{post.id}}</span></h2>
+<div class="card" style="margin: 10px 0px;">
+    <div class="card-header">
+        {{post.name}} <span style="position: absolute; right: 20px;">{{post.user.username}}, {{post.date_created}}</span>
+    </div>
+    <div class="card-body" >
+        <p class="card-text">{{post.description}}</p>
+    </div>
+</div>  
+{{#if comment.id}}
+  <div class="card" style="margin: 10px 10px;">
+      <div class="card-header">
+         Comment <span style="position: absolute; right: 20px;">{{comment.user.username}}, {{comment.date_created}}</span>
+      </div>
+      <div class="card-body" >
+          <p class="card-text">{{comment.description}}</p>
+      </div>
+  </div> 
+{{else}}
 
-    <form class="form post-form">
+{{#if logged_in}}
+
+<div class="row">
+    <h2>Post a Comment</h2>
+    <form class="form comment-form">
       <div class="form-group">
-        <label for="post-title">Title</label>
-        <textarea class="form-control" type="text" id="post-title">{{post.name}}</textarea>
+        <label for="comment-description">Comment Description</label>
+        <textarea class="form-control" id="comment-description"></textarea>
       </div>
-      <div class="form-group">
-        <label for="post-description">Description</label>
-        <textarea class="form-control" id="post-description">{{post.description}}</textarea>
-      </div>
-      
       <div class="form-group" style="margin-top: 10px;">
-        <button class="btn btn-primary" type="submit">Submit</button>
+        <button class="btn btn-primary" type="submit" id={{post.id}}>Submit</button>
       </div>
     </form>
-
 </div>
 
-<script src="/js/post.js"
+{{else}}
+<h4>Please log in to leave a comment!</h4>
+{{/if}}
+
+{{/if}}
+
+<script src="/js/comment.js"
 

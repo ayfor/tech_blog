@@ -18,7 +18,6 @@ const handlePostClick = async (event) => {
             body: JSON.stringify({name,description}),
             headers: { 'Content-Type': 'application/json' },
         })
-        console.log(response.json());        
     }else{
         //Create a new post
         console.log('Creating post...');
@@ -28,7 +27,6 @@ const handlePostClick = async (event) => {
             body: JSON.stringify({name,description}),
             headers: { 'Content-Type': 'application/json' },
         })
-        console.log(response.json());
     }
 
     document.location.replace('/dashboard');
