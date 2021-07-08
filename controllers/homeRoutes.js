@@ -187,4 +187,10 @@ router.get('/login', (req, res) => {
   res.render('login', { logged_in:isLoggedIn } );
 });
 
+router.get('*', async (req, res) => {
+  
+  res.redirect('/home');
+  
+});
+
 module.exports = router;
