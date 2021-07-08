@@ -20,4 +20,5 @@ Below is a screenshot of the application's Home page.
 - Sequelize
 - MySQL
 - Handlebars
+- Bootstrap
 - Heroku
